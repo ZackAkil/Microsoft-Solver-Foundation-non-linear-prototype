@@ -12,7 +12,6 @@ namespace SolverTest
 {
     class Program
     {
-        public delegate double CostFunction(double[] x);
 
         public static double MyCostFunctionMethod(double[] x)
         {
