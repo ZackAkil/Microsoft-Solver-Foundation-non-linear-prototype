@@ -12,6 +12,14 @@ namespace SolverTest
 {
     class Program
     {
+        public delegate double CostFunction(double[] x);
+
+        public static double MyCostFunctionMethod(double[] x)
+        {
+            // Can add more complicated logic here
+            return x[1] - x[0];
+        }
+
         static void Main(string[] args)
         {
 
@@ -19,8 +27,9 @@ namespace SolverTest
             double[] xLower = new double[] { -1, -1 };
             double[] xUpper = new double[] { 10, 10 };
 
-            var solution = NelderMeadSolver.Solve(
-            x => (x[1] - x[0]), xInitial, xLower, xUpper);
+            Func<double[], double> costFunction = MyCostFunctionMethod;
+
+            var solution = NelderMeadSolver.Solve(costFunction, xInitial, xLower, xUpper);
 
             Console.WriteLine(solution.Result);
             Console.WriteLine("solution = {0}", solution.GetSolutionValue(0));
