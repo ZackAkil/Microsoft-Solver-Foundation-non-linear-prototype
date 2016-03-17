@@ -24,9 +24,13 @@ namespace SolverTest
             return x[1] - x[0];
         }
 
-        static Vector<Double> sigmoidFunction(double[] x)
+        static Vector<Double> predictFunction(Matrix<Double> featureValues, Vector<Double> theta)
         {
-            Vector<Double> values = DenseVector.OfArray(x);
+            return sigmoidFunction(featureValues * theta);
+        }
+
+        static Vector<Double> sigmoidFunction(Vector<Double> values)
+        {
             return (1 / (values.Multiply(-1).PointwiseExp() + 1));
         }
 
