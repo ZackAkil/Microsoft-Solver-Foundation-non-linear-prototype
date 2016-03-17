@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.SolverFoundation.Common;
 using Microsoft.SolverFoundation.Solvers;
 
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics;
+
 
 namespace SolverTest
 {
@@ -18,6 +23,13 @@ namespace SolverTest
             // Can add more complicated logic here
             return x[1] - x[0];
         }
+
+        static Vector<Double> sigmoidFunction(double[] x)
+        {
+            Vector<Double> values = DenseVector.OfArray(x);
+            return (1 / (values.Multiply(-1).PointwiseExp() + 1));
+        }
+
 
         static void Main(string[] args)
         {
