@@ -18,16 +18,13 @@ namespace SolverTest
     class Program
     {
 
-        public Matrix<Double> featureValues;
-        public Vector<Double> trueValues;
-
         public static double[,] readFileIntoArray()
         {
             var items = File.ReadAllLines("testData") // read lines from file
                     .Select(line => line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                     .Select(Double.Parse).ToArray());
 
-            double[][] valuesFromFile = new double[100][];
+            double[][] valuesFromFile = new double[items.Count()][];
 
             int i = 0;
             foreach (var item in items)
@@ -47,7 +44,7 @@ namespace SolverTest
             var items = File.ReadAllLines("saveResult") // read lines from file
                     .Select(Double.Parse).ToArray();
 
-            double[] valuesFromFile = new double[100];
+            double[] valuesFromFile = new double[items.Count()];
 
             int i = 0;
             foreach (var item in items)
@@ -79,13 +76,8 @@ namespace SolverTest
 
         public static double MyCostFunctionMethod(double[] theta,Matrix<Double> featureValues, Vector<Double> trueValues)
         {
-            // Can add more complicated logic here
-
-
 
             Vector<Double> temptheta = DenseVector.OfArray(theta);
-         //   Console.WriteLine(theta[0].ToString() + " - " + theta[1].ToString());
-          //  Console.WriteLine(Distance.MSE(predictFunction(featureValues, temptheta), trueValues));
 
             return Distance.MSE(predictFunction(featureValues,temptheta), trueValues);
         }
@@ -99,39 +91,23 @@ namespace SolverTest
         static Vector<Double> sigmoidFunction(Vector<Double> values)
         {
             
-            var result = (1 / (values.Multiply(-1).PointwiseExp() + 1));
-         //   Console.WriteLine(result);
-            return result;
+            return (1 / (values.Multiply(-1).PointwiseExp() + 1));
         }
 
 
         static void Main(string[] args)
         {
 
-
-            readResultFileIntoArray();
-            
-            
-
-             readFileIntoArray();
-
             double[] xInitial = new double[17] { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 };
             double[] xLower = new double[17] { -5,-5,-5,-5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5 };
             double[] xUpper = new double[17] { 5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5 };
 
-           // Func <double[], double> costFunction = MyCostFunctionMethod;
-
-            //var solution = NelderMeadSolver.Solve(costFunction, xInitial, xLower, xUpper);
 
             Matrix<Double> featureValues = DenseMatrix.OfArray(readFileIntoArray());
 
             Vector<Double> trueValues = DenseVector.OfArray(readResultFileIntoArray());
 
-            int y = 7;
-
             var solution = NelderMeadSolver.Solve(x => MyCostFunctionMethod(x,featureValues,trueValues), xInitial, xLower, xUpper);
-
-
 
             Console.WriteLine(solution.Result);
             Console.WriteLine("solution = {0}", solution.GetSolutionValue(0));
@@ -139,8 +115,6 @@ namespace SolverTest
             {
                 Console.WriteLine("x = {0}", solution.GetValue(i+1));
             }
-
-            
 
             Console.ReadKey();
         }
