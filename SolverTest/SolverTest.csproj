@@ -85,6 +85,8 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="saveResult" />
+    <None Include="testData" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
