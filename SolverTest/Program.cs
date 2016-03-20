@@ -18,9 +18,9 @@ namespace SolverTest
     class Program
     {
 
-        public static double[,] readFileIntoArray()
+        public static double[,] readFileIntoArray(string fileName)
         {
-            var items = File.ReadAllLines("testData") // read lines from file
+            var items = File.ReadAllLines(fileName) // read lines from file
                     .Select(line => line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                     .Select(Double.Parse).ToArray());
 
@@ -39,9 +39,9 @@ namespace SolverTest
             return JaggedToMultidimensional(valuesFromFile);
         }
 
-        public static double[] readResultFileIntoArray()
+        public static double[] readResultFileIntoArray(string fileName)
         {
-            var items = File.ReadAllLines("saveResult") // read lines from file
+            var items = File.ReadAllLines(fileName) // read lines from file
                     .Select(Double.Parse).ToArray();
 
             double[] valuesFromFile = new double[items.Count()];
@@ -103,9 +103,9 @@ namespace SolverTest
             double[] xUpper = new double[17] { 5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5 };
 
 
-            Matrix<Double> featureValues = DenseMatrix.OfArray(readFileIntoArray());
+            Matrix<Double> featureValues = DenseMatrix.OfArray(readFileIntoArray("testData"));
 
-            Vector<Double> trueValues = DenseVector.OfArray(readResultFileIntoArray());
+            Vector<Double> trueValues = DenseVector.OfArray(readResultFileIntoArray("saveResult"));
 
             var solution = NelderMeadSolver.Solve(x => MyCostFunctionMethod(x,featureValues,trueValues), xInitial, xLower, xUpper);
 
