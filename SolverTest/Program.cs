@@ -12,6 +12,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics;
 using System.IO;
+using ExtensionMethods;
 
 namespace SolverTest
 {
@@ -99,9 +100,10 @@ namespace SolverTest
         {
 
             double[] xInitial = new double[17] { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 };
-            double[] xLower = new double[17] { -5,-5,-5,-5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5 };
-            double[] xUpper = new double[17] { 5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5 };
-
+            double[] xLower = new double[17];
+            xLower.Populate(-5);
+            double[] xUpper = new double[17];
+            xUpper.Populate(5);
 
             Matrix<Double> featureValues = DenseMatrix.OfArray(readFileIntoArray("testData"));
 
